@@ -75,9 +75,11 @@ calling ``uv_tcp_connect``. The same ``uv_connect_cb`` style callback of
     uv_tcp_init(loop, socket);
 
     uv_connect_t* connect = (uv_connect_t*)malloc(sizeof(uv_connect_t));
-
-    struct sockaddr_in dest = uv_ip4_addr("127.0.0.1", 80);
-
+    
+    struct sockaddr_in dest;
+    if (uv_ip4_addr("127.0.0.1", 80, &dest) != 0) {
+      /* error handle */
+    };
     uv_tcp_connect(connect, socket, dest, on_connect);
 
 where ``on_connect`` will be called after the connection is established.
